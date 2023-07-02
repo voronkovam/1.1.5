@@ -14,8 +14,8 @@ public class Util {
     // реализуйте настройку соединения с БД
     private static final String DRIVER_DB = "com.mysql.cj.jdbc.Driver";
     private static final String URL_DB = "jdbc:mysql://localhost:3306/bdkata";
-    private static final String USERNAME = "root";
-    private static final String PASSWORD = "root";
+    private static final String USERNAME_DB = "root";
+    private static final String PASSWORD_DB = "root";
 
     private static Connection connection;
     private static SessionFactory sessionFactory;
@@ -24,7 +24,7 @@ public class Util {
         if (connection == null) {
             try {
                 Class.forName(DRIVER_DB);
-                connection = DriverManager.getConnection(URL_DB, USERNAME, PASSWORD);
+                connection = DriverManager.getConnection(URL_DB, USERNAME_DB, PASSWORD_DB);
 
             } catch (SQLException | ClassNotFoundException e) {
                 System.err.println("Connection ERROR!");
@@ -41,8 +41,8 @@ public class Util {
                 Properties properties = new Properties();
                 properties.put(Environment.DRIVER, DRIVER_DB);
                 properties.put(Environment.URL, URL_DB);
-                properties.put(Environment.USER, USERNAME);
-                properties.put(Environment.PASS, PASSWORD);
+                properties.put(Environment.USER, USERNAME_DB);
+                properties.put(Environment.PASS, PASSWORD_DB);
                 properties.put(Environment.DIALECT, "org.hibernate.dialect.MySQLDialect");
                 properties.put(Environment.SHOW_SQL, "true");
                 properties.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
