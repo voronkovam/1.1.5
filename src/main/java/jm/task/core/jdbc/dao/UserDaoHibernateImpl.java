@@ -3,7 +3,9 @@ package jm.task.core.jdbc.dao;
 import jm.task.core.jdbc.model.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+
 import java.util.List;
+
 import static jm.task.core.jdbc.util.Util.getSessionFactory;
 
 public class UserDaoHibernateImpl implements UserDao {
@@ -53,6 +55,7 @@ public class UserDaoHibernateImpl implements UserDao {
         try (Session session = getSessionFactory().getCurrentSession()) {
             transaction = session.beginTransaction();
             session.save(new User(name, lastName, age));
+            System.out.println("User с именем – " + name + " добавлен в базу данных");
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
@@ -83,7 +86,9 @@ public class UserDaoHibernateImpl implements UserDao {
     public List<User> getAllUsers() {
 
         try (Session session = getSessionFactory().openSession()) {
-            return session.createQuery(ALL_USERS).getResultList();
+            List<User> list = session.createQuery(ALL_USERS).getResultList();
+            list.forEach(System.out::println);
+            return list;
         }
     }
 
