@@ -9,6 +9,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class UserDaoJDBCImpl implements UserDao {
 
@@ -41,12 +43,16 @@ public class UserDaoJDBCImpl implements UserDao {
             preparedStatement.setString(2, lastName);
             preparedStatement.setByte(3, age);
             preparedStatement.executeUpdate();
-            System.out.println("User с именем – " + name + " добавлен в базу данных");
+            Logger log = Logger.getLogger(UserDaoJDBCImpl.class.getName());
+            log.log(Level.INFO, "User с именем – {0} добавлен в базу данных", new Object[]{name});
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
+    //                logger.log(Level.WARNING,
+//                "Detected target mail correspondence: from {0} to {1} \"{2}\"",
+//                new Object[]{mail.getFrom(), mail.getTo(), ((MailMessage) mail).getMessage()});
     public void removeUserById(long id) {
         String sqlCommand = "DELETE FROM users WHERE id = ?";
         try (PreparedStatement preparedStatement = Util.getConnection().prepareStatement(sqlCommand)) {

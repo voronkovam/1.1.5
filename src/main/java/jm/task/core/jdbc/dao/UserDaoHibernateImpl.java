@@ -4,7 +4,10 @@ import jm.task.core.jdbc.model.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import javax.persistence.Query;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static jm.task.core.jdbc.util.Util.getSessionFactory;
 
@@ -55,7 +58,8 @@ public class UserDaoHibernateImpl implements UserDao {
         try (Session session = getSessionFactory().getCurrentSession()) {
             transaction = session.beginTransaction();
             session.save(new User(name, lastName, age));
-            System.out.println("User с именем – " + name + " добавлен в базу данных");
+            Logger log = Logger.getLogger(UserDaoHibernateImpl.class.getName());
+            log.log(Level.INFO, "User с именем – {0} добавлен в базу данных", new Object[]{name});
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
@@ -83,6 +87,7 @@ public class UserDaoHibernateImpl implements UserDao {
     }
 
     @Override
+
     public List<User> getAllUsers() {
 
         try (Session session = getSessionFactory().openSession()) {
@@ -104,5 +109,6 @@ public class UserDaoHibernateImpl implements UserDao {
             }
             e.printStackTrace();
         }
+
     }
 }
